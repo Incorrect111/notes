@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/vue@next"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div id="app">
+      <h1>
+        {{ title }}
+      </h1>
+
+      <form @submit.prevent="onSubmit">
+        <input type="text" required v-model="input.value" :placeholder="input.placeholder">
+        <button type="submit">Add note</button>
+      </form>
+
+      <div class="notes">
+        <div class="note" v-for="note in notes" :key="note.id">
+          <p v-if="!note.editing">
+            <span @click="remove(note.id)">&#x2715</span>
+            {{ note.value }}
+            <button @click="editNote(note.id)" type="submit">Edit note</button>
+          </p>
+
+          <!-- hidden input -->
+          <form class="hiddenFrom" @submit.prevent="submitEditingNote(note.id)" v-if="note.editing">
+            <input v-model="note.hiddenInput.value" :placeholder="note.hiddenInput.placeholder" class="hiddenInput"
+              type="text">
+            <button type="onSubmit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>
+
+<style>
+  .hiddenFrom {
+    margin-top: 15px;
+  }
+</style>
